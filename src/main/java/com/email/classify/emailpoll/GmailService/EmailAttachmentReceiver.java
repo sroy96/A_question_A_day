@@ -22,7 +22,8 @@ public void poll() {
 
     EmailAttachmentReceiver receiver = new EmailAttachmentReceiver();
         receiver.setSaveDirectory(saveDirectory);
-        AttachmentHandler.downloadEmailAttachments(host, port, userName, password);
+    AttachmentHandler attachmentHandler = new  AttachmentHandler();
+    attachmentHandler.downloadEmailAttachments(host, port, userName, password);
 
         }
 }

@@ -15,5 +15,6 @@ public class CommonConstants {
     public static String PORT_ID= "995";
     public static String HOST_NAME="pop.gmail.com";
     public static String PROTOCOL= "pop3";
-
+    public static String FROM_FILTER="SAURAV ROY <sauravroy.eee@gmail.com";
+//"Daily Coding Problem <founders@dailycodingproblem.com>"
 }

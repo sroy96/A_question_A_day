@@ -2,22 +2,24 @@ package com.email.classify.emailpoll.DAO;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
 
 @Data
 @Document
 public class GmailExtractDAO {
+    @Id
     private String Id;
     private String from;
     private String subject;
     private String sentDate;
     private String message;
-    private String attachment;
+    private StringBuilder attachment;
 
     public GmailExtractDAO() {
     }
 
-    public GmailExtractDAO(String id, String from, String subject, String sentDate, String message, String attachment) {
-        Id = id;
+    public GmailExtractDAO(String from, String subject, String sentDate, String message, StringBuilder attachment) {
+
         this.from = from;
         this.subject = subject;
         this.sentDate = sentDate;
@@ -65,11 +67,11 @@ public class GmailExtractDAO {
         this.message = message;
     }
 
-    public String getAttachment() {
+    public StringBuilder getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(String attachment) {
+    public void setAttachment(StringBuilder attachment) {
         this.attachment = attachment;
     }
 
