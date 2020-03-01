@@ -1,4 +1,4 @@
-#Daily Coding Questions App
+# Daily Coding Questions App
 
 To Keep up with competitive coding is a tuff work to do, Its a question of regular practice from a reliable source in a short time  to 
 keep a check with the latest question patterns. 
