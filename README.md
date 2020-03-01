@@ -4,7 +4,7 @@ To Keep up with competitive coding is a tuff work to do, Its a question of regul
 keep a check with the latest question patterns. 
 
 This Application provides a classified set of questions asked in top Software development company
-each a day and make you solve a question each day.
+and make you solve a question each day to make your life easy. :)
 
 ```
 LOAD_REFRESH- http://localhost:8080/problems/
