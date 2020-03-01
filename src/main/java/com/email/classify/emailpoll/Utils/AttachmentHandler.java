@@ -1,23 +1,28 @@
 package com.email.classify.emailpoll.Utils;
 
 import com.email.classify.emailpoll.DAO.GmailExtractDAO;
+import com.email.classify.emailpoll.DAO.ProblemSet;
 import com.email.classify.emailpoll.GmailService.EmailAttachmentReceiver;
+import com.email.classify.emailpoll.Repository.ProblemRepository;
 import com.email.classify.emailpoll.Repository.QuestionRepository;
-import org.apache.log4j.Logger;
+
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 import javax.mail.internet.MimeBodyPart;
-import java.io.File;
+
 import java.io.IOException;
 import java.util.Properties;
 
+@Component
 public class AttachmentHandler {
     @Autowired
    private QuestionRepository questionRepository;
 
-    private static Logger log = Logger.getLogger(EmailAttachmentReceiver.class);
+@Autowired
+private ProblemRepository problemRepository;
     public  void downloadEmailAttachments(String host, String port, String userName, String password) {
 
         Properties properties = new Properties();
@@ -49,15 +54,15 @@ public class AttachmentHandler {
                 Message message = arrayMessages[i];
                 Address[] fromAddress = message.getFrom();
                 String from = fromAddress[0].toString();
-               if (true) {
-                   //CommonConstants.FROM_FILTER.equalsIgnoreCase(from)
+
+               if (CommonConstants.FROM_FILTER.equalsIgnoreCase(from)) {
+
                     String subject = message.getSubject();
                     String sentDate = message.getSentDate().toString();
 
                     String contentType = message.getContentType();
                     String messageContent = "";
 
-                    // store attachment file name, separated by comma
                     StringBuilder attachFiles = new StringBuilder();
 
                     if (contentType.contains("multipart")) {
@@ -70,16 +75,14 @@ public class AttachmentHandler {
                                 // this part is attachment
                                 String fileName = part.getFileName();
                                 attachFiles.append(fileName).append(", ");
-                                part.saveFile(EmailAttachmentReceiver.saveDirectory + File.separator + fileName);
+
                             } else {
                                 // this part may be the message content
                                 messageContent = part.getContent().toString();
                             }
                         }
 
-                        if (attachFiles.length() > 1) {
-                            attachFiles = new StringBuilder(attachFiles.substring(0, attachFiles.length() - 2));
-                        }
+
                     } else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
                         Object content = message.getContent();
                         if (content != null) {
@@ -87,24 +90,22 @@ public class AttachmentHandler {
                         }
                     }
                     String newMessageContent = Jsoup.parse(messageContent).wholeText();
+                    int start =  newMessageContent.indexOf("today.");
+                    int end= newMessageContent.indexOf("Upgrade");
+
+                    String resultMessage = newMessageContent.substring(start+5,end);
                     GmailExtractDAO gmailExtractDAO = new GmailExtractDAO();
                     gmailExtractDAO.setFrom(from);
-                    gmailExtractDAO.setMessage(newMessageContent);
+                    gmailExtractDAO.setMessage(resultMessage);
                     gmailExtractDAO.setSubject(subject);
                     gmailExtractDAO.setSentDate(sentDate);
-                    gmailExtractDAO.setAttachment(attachFiles);
-                    try {
-                        questionRepository.save(gmailExtractDAO);
-                    }
-                    catch (Exception e){
-                        System.out.println("failed here");
-                    }
-                    System.out.println("Message #" + (i + 1) + ":");
-                    System.out.println("\t From: " + from);
-                    System.out.println("\t Subject: " + subject);
-                      System.out.println("\t Sent Date: " + sentDate);
-                    System.out.println("\t Message: " + newMessageContent);
-                    	System.out.println("\t Attachments: " + attachFiles);
+                    questionRepository.save(gmailExtractDAO);
+
+                   ProblemSet problemSet= new ProblemSet();
+                 problemSet.setDifficulty(subject.substring(subject.indexOf("[")+1,subject.indexOf("]")));
+                problemSet.setQuestion(resultMessage);
+                problemRepository.save(problemSet);
+
                 }
                 else {
                     throw new AppException("Filter not matched");
@@ -116,17 +117,17 @@ public class AttachmentHandler {
         } catch (NoSuchProviderException ex) {
             System.out.println("No provider for pop3.");
             ex.printStackTrace();
-            log.error(ex);
+         //
         } catch (MessagingException ex) {
             System.out.println("Could not connect to the message store");
             ex.printStackTrace();
-            log.error(ex);
+           // log.error(ex);
         } catch (IOException ex) {
             ex.printStackTrace();
-            log.error(ex);
+          //  log.error(ex);
         }catch (AppException ex){
             ex.printStackTrace();
-            log.error("Filter not Matched during search");
+          //  log.error("Filter not Matched during search");
         }
     }
 

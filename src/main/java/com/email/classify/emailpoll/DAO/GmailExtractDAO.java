@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 @Document
 public class GmailExtractDAO {
     @Id
-    private String Id;
+    private String id;
     private String from;
     private String subject;
     private String sentDate;
@@ -28,11 +28,11 @@ public class GmailExtractDAO {
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getFrom() {
@@ -78,7 +78,7 @@ public class GmailExtractDAO {
     @Override
     public String toString() {
         return "GmailExtractDAO{" +
-                "Id='" + Id + '\'' +
+                "Id='" +id + '\'' +
                 ", from='" + from + '\'' +
                 ", subject='" + subject + '\'' +
                 ", sentDate='" + sentDate + '\'' +

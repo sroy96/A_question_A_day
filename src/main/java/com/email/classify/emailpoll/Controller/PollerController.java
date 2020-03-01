@@ -1,35 +1,48 @@
 package com.email.classify.emailpoll.Controller;
 
-import com.email.classify.emailpoll.GmailService.EmailAttachmentReceiver;
+import com.email.classify.emailpoll.DAO.ProblemSet;
+import com.email.classify.emailpoll.GmailService.AppService;
+
+import com.email.classify.emailpoll.Utils.APIConstants;
+import com.email.classify.emailpoll.Utils.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RestController
-@RequestMapping("/problems")
+@RequestMapping(APIConstants.REQUEST)
 public class PollerController {
 
-    @Autowired
-    private EmailAttachmentReceiver pollingService;
 
-    @GetMapping("/refresh")
-    public String success()  {
-        try{
-            pollingService.poll();
-            return "success";
-//            return new ResponseEntity(HttpStatus.OK);
-        }
-        catch(Exception e){
-            e.getMessage();
-        }
-        return "fail";
-        //return new ResponseEntity(HttpStatus.BAD_GATEWAY);
-    }
+@Autowired
+AppService appService;
 
+@GetMapping(APIConstants.LOAD_QUES)
+public void entry(){
+    appService.add();
+}
 
+@GetMapping(APIConstants.ALL_QUESTIONS)
+public List<ProblemSet>allQuesMethod(){
+    return appService.allQues();
+}
+
+@GetMapping(APIConstants.EASY_QUES)
+    public List<ProblemSet>allEasy(){
+    return appService.easy();
+}
+
+@GetMapping(APIConstants.MEDIUM_QUES)
+    public List<ProblemSet>allMedium(){
+    return appService.medium();
+}
+
+@GetMapping(APIConstants.HARD_QUES)
+    public List<ProblemSet>allHard(){
+    return appService.hard();
+}
 }

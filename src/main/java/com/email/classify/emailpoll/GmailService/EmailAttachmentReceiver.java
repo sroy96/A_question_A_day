@@ -1,16 +1,15 @@
 package com.email.classify.emailpoll.GmailService;
 import com.email.classify.emailpoll.Utils.AttachmentHandler;
 import com.email.classify.emailpoll.Utils.CommonConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class EmailAttachmentReceiver {
 
-    public static String saveDirectory = "/home/content";
-
-    private void setSaveDirectory(String dir) {
-        EmailAttachmentReceiver.saveDirectory = dir;
-    }
+    @Autowired
+    AttachmentHandler attachmentHandler;
 
 public void poll() {
         String host = CommonConstants.HOST_NAME;
@@ -18,11 +17,7 @@ public void poll() {
         String userName = CommonConstants.EMAIL_ID;
         String password =CommonConstants.PASSWORD;
 
-    String saveDirectory = "/home/sdsf";
 
-    EmailAttachmentReceiver receiver = new EmailAttachmentReceiver();
-        receiver.setSaveDirectory(saveDirectory);
-    AttachmentHandler attachmentHandler = new  AttachmentHandler();
     attachmentHandler.downloadEmailAttachments(host, port, userName, password);
 
         }
