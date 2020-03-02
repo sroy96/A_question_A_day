@@ -6,6 +6,7 @@ import com.email.classify.emailpoll.GmailService.EmailAttachmentReceiver;
 import com.email.classify.emailpoll.Repository.ProblemRepository;
 import com.email.classify.emailpoll.Repository.QuestionRepository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import javax.mail.internet.MimeBodyPart;
 
 import java.io.IOException;
 import java.util.Properties;
-
+@Slf4j
 @Component
 public class AttachmentHandler {
     @Autowired
@@ -108,8 +109,9 @@ private ProblemRepository problemRepository;
 
                 }
                 else {
-                    throw new AppException("Filter not matched");
-                }
+                   log.info("Filter Not Matched");
+
+               }
             }
 
             folderInbox.close(false);

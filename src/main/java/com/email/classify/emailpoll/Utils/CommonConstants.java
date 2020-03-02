@@ -1,8 +1,8 @@
 package com.email.classify.emailpoll.Utils;
 
 public class CommonConstants {
-    public static final String EMAIL_ID="your email";
-    public static final String PASSWORD="your password";
+    public static final String EMAIL_ID="sauravroy.eee@gmail.com";
+    public static final String PASSWORD="Sroyvit123#";
     public static final String POP3_HOST="mail.pop3.host";
     public static final String POP3_PORT="mail.pop3.port";
     public static final String POP3_CLASS="mail.pop3.socketFactory.class";

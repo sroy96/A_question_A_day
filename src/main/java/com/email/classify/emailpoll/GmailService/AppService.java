@@ -1,6 +1,5 @@
 package com.email.classify.emailpoll.GmailService;
 
-import com.email.classify.emailpoll.DAO.GmailExtractDAO;
 import com.email.classify.emailpoll.DAO.ProblemSet;
 import com.email.classify.emailpoll.Repository.ProblemRepository;
 import com.email.classify.emailpoll.Repository.QuestionRepository;
@@ -28,7 +27,7 @@ public class AppService {
         emailAttachmentReceiver.poll();
     }
 
-    public List<ProblemSet> allQues() {
+    public Iterable<ProblemSet> allQues() {
      return    problemRepository.findAll();
     }
 

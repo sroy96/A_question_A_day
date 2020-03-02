@@ -2,9 +2,9 @@ package com.email.classify.emailpoll.Controller;
 
 import com.email.classify.emailpoll.DAO.ProblemSet;
 import com.email.classify.emailpoll.GmailService.AppService;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.email.classify.emailpoll.Utils.APIConstants;
-import com.email.classify.emailpoll.Utils.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public void entry(){
 }
 
 @GetMapping(APIConstants.ALL_QUESTIONS)
-public List<ProblemSet>allQuesMethod(){
+public Iterable<ProblemSet> allQuesMethod(){
     return appService.allQues();
 }
 
