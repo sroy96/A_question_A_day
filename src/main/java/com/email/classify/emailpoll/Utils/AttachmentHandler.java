@@ -2,7 +2,6 @@ package com.email.classify.emailpoll.Utils;
 
 import com.email.classify.emailpoll.DAO.GmailExtractDAO;
 import com.email.classify.emailpoll.DAO.ProblemSet;
-import com.email.classify.emailpoll.GmailService.EmailAttachmentReceiver;
 import com.email.classify.emailpoll.Repository.ProblemRepository;
 import com.email.classify.emailpoll.Repository.QuestionRepository;
 
@@ -22,8 +21,9 @@ public class AttachmentHandler {
     @Autowired
    private QuestionRepository questionRepository;
 
-@Autowired
-private ProblemRepository problemRepository;
+    @Autowired
+    private ProblemRepository problemRepository;
+
     public  void downloadEmailAttachments(String host, String port, String userName, String password) {
 
         Properties properties = new Properties();
@@ -106,7 +106,7 @@ private ProblemRepository problemRepository;
                  problemSet.setDifficulty(subject.substring(subject.indexOf("[")+1,subject.indexOf("]")));
                 problemSet.setQuestion(resultMessage);
                 problemRepository.save(problemSet);
-
+                   log.info("Filter Matched Data Saved");
                 }
                 else {
                    log.info("Filter Not Matched");

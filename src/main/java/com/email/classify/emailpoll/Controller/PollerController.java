@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 @Controller
@@ -22,8 +24,8 @@ public class PollerController {
 AppService appService;
 
 @GetMapping(APIConstants.LOAD_QUES)
-public void entry(){
-    appService.add();
+public Iterable<ProblemSet> entry()throws IOException, GeneralSecurityException {
+    return appService.add();
 }
 
 @GetMapping(APIConstants.ALL_QUESTIONS)
